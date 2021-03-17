@@ -571,7 +571,7 @@ x_loop = [0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 6]
 y_loop = [0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4]
 wpos = [51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 121, 51, 51, 51]
 fix = ['9', '8', '7', '+', '6', '5', '4', '-', '3', '2', '1', '*', '%', '0', '.', '/', 'C', '<--', '=']
-for y in range(0, 19):  # make All buttons in fix tuple
+for y in range(0, 19): 
     b = Button(f1, text=fix[y], font="lucida 15 bold")
     b.place(x=xpos[x_loop[y]], y=ypos[y_loop[y]], width=wpos[y], height=41)
     b.bind("<Button-1>", click)
