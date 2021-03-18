@@ -1,19 +1,15 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
-
 import pygame
 import time
 import random
 from tkinter import *
 
+cost = 0
+
+
 class Snake():
     def __init__(self):
         self.length = 1
-        self.positions = [((screen_width/2), (screen_height/2))]
+        self.positions = [((screen_width / 2), (screen_height / 2))]
         self.direction = random.choice([up, down, left, right])
         self.color = (17, 24, 47)
         self.score = 0
@@ -22,7 +18,7 @@ class Snake():
         return self.positions[0]
 
     def turn(self, point):
-        if self.length > 1 and (point[0]*-1, point[1]*-1) == self.direction:
+        if self.length > 1 and (point[0] * -1, point[1] * -1) == self.direction:
             return
         else:
             self.direction = point
@@ -30,6 +26,7 @@ class Snake():
     def text_objects(self, text, font):
         textsurface = font.render(text, True, (34, 67, 90))
         return textsurface, textsurface.get_rect()
+
     def display_text(self, text):
         pygame.font.init()
         largetext = pygame.font.Font("freesansbold.ttf", 50)
@@ -44,24 +41,18 @@ class Snake():
         time.sleep(1)
         self.display_text("GAME OVER")
         self.display_text("YOUR SCORE : " + str(self.score))
-        cost = 0
-        if (self.score < 100):
-            cost = cost + 100
-            self.display_text("Pay : " + str(cost))
-        elif(self.score >= 100 and self.score < 300):
-            cost = cost + 200
-            self.display_text("Pay : " + str(cost))
-        else:
-            cost = cost + 300
-            self.display_text("Pay : " + str(cost))
+        global cost
+        cost = cost + 120
         # pygame.quit()
         # quit()
-        game_shop(cost)
+        game_shop()
+
     def move(self):
         cur = self.head_position()
         x, y = self.direction
-        new = (((cur[0]+(x*gridsize)) % screen_width), (cur[1] + (y*gridsize)) % screen_height)
-        if ((len(self.positions) > 2 and new in self.positions[2:]) or (new[0] < 5) or (new[0] > screen_width - 25) or (new[1] < 5) or (new[1] > screen_height - 25)):
+        new = (((cur[0] + (x * gridsize)) % screen_width), (cur[1] + (y * gridsize)) % screen_height)
+        if ((len(self.positions) > 2 and new in self.positions[2:]) or (new[0] < 5) or (new[0] > screen_width - 25) or (
+                new[1] < 5) or (new[1] > screen_height - 25)):
             self.crash()
         else:
             self.positions.insert(0, new)
@@ -70,7 +61,7 @@ class Snake():
 
     def reset(self):
         self.length = 1
-        self.positions = [((screen_width/2), (screen_height/2))]
+        self.positions = [((screen_width / 2), (screen_height / 2))]
         self.direction = random.choice([up, down, left, right])
         self.score = 0
 
@@ -95,6 +86,7 @@ class Snake():
                 elif event.key == pygame.K_RIGHT:
                     self.turn(right)
 
+
 class Food():
     def __init__(self):
         self.position = (0, 0)
@@ -102,29 +94,31 @@ class Food():
         self.randomize_position()
 
     def randomize_position(self):
-        self.position = (random.randint(1, grid_width - 2)*gridsize, random.randint(1, grid_height - 2)*gridsize)
+        self.position = (random.randint(1, grid_width - 2) * gridsize, random.randint(1, grid_height - 2) * gridsize)
 
     def draw(self, surface):
         r = pygame.Rect((self.position[0], self.position[1]), (gridsize, gridsize))
         pygame.draw.rect(surface, self.color, r)
         pygame.draw.rect(surface, (93, 216, 228), r, 1)
 
+
 def b_g(surface):
     for y in range(0, int(grid_height)):
         for x in range(0, int(grid_width)):
             if (x == 0 or x == grid_width - 1 or y == 0 or y == grid_height - 1):
-                r = pygame.Rect((x*gridsize, y*gridsize), (gridsize, gridsize))
+                r = pygame.Rect((x * gridsize, y * gridsize), (gridsize, gridsize))
                 pygame.draw.rect(surface, (255, 0, 0), r)
             else:
-                rr = pygame.Rect((x*gridsize, y*gridsize), (gridsize, gridsize))
+                rr = pygame.Rect((x * gridsize, y * gridsize), (gridsize, gridsize))
                 pygame.draw.rect(surface, (255, 255, 255), rr)
 
-screen_width = 600
-screen_height = 400
+
+screen_width = 800
+screen_height = 600
 
 gridsize = 20
-grid_width = int(screen_width/gridsize)
-grid_height = int(screen_height/gridsize)
+grid_width = int(screen_width / gridsize)
+grid_height = int(screen_height / gridsize)
 
 up = (0, -1)
 down = (0, 1)
@@ -133,6 +127,8 @@ right = (1, 0)
 
 snake = Snake()
 food = Food()
+
+
 def snake_game():
     pygame.init()
 
@@ -145,8 +141,7 @@ def snake_game():
 
     # snake = Snake()
     # food = Food()
-    snake.display_text("WELCOME TO GAME-1")
-    snake.display_text("THE SNAKE GAME")
+    snake.display_text("WELCOME")
 
     myfont = pygame.font.SysFont("monospace", 16)
 
@@ -172,6 +167,7 @@ def snake_game():
         text = myfont.render("Score {0}".format(snake.score), True, (0, 0, 0))
         screen.blit(text, (20, 15))
         pygame.display.update()
+
 
 def game_2():
     import random
@@ -206,7 +202,7 @@ def game_2():
 
     print()
     x = 'Y'
-    cost = 0
+
     while x == 'Y':
         print("Play with a friend --- Press 1")
         print("Play with computer --- Press 2")
@@ -287,12 +283,10 @@ def game_2():
         if x == 'N':
             print("Thanks Sir/Mam!")
             print()
+        global cost
+        cost += 120
 
-        cost += 100
-    cost += 20
-
-    print(f"Pay:{cost}")
-    game_shop(cost)
+    game_shop()
 
 
 def game_3():
@@ -327,18 +321,9 @@ def game_3():
 
     pygame.quit()
 
-    print()
-    snake.display_text("Welcome")
-    print("*************************************")
-    print("Welcome to Game Number 3 --- Hangaroo")
-    print("*************************************")
-
-    print()
-
-    print("Loading the gaming window............")
-    print("Please Wait")
-
-    cost = 100
+    snake.display_text("WELCOME")
+    global cost
+    cost += 120
 
     def hangaroo(res=None):
         global ss, ll, ss1, n, ffdata, temps, first
@@ -356,7 +341,8 @@ def game_3():
                         ss.insert(i, "*")
                         unknown.configure(text=xx)
                         if xx == temps:
-                            ans.configure(text='Congratulations')
+                            # ans.configure(text='Congratulations')
+
                             if res:
                                 chooseword()
                             else:
@@ -367,7 +353,8 @@ def game_3():
                 n -= 1
                 chances_left.configure(text='Left = {}'.format(n))
         if n <= 0:
-            ans.configure(text='Better luck next time')
+            # ans.configure(text='Better luck next time')
+
             if res:
                 chooseword()
             else:
@@ -376,11 +363,10 @@ def game_3():
     def jj(event):
         hangaroo()
 
-
     from tkinter import messagebox
     import random
 
-    options = ['kumar', 'rahul', 'advait', 'prem', 'keshav', 'sujit', 'eshita']
+    options = ['kumar', 'rahul', 'gupta', 'prem', 'keshav', 'sujit', 'eshita']
 
     root = Tk()
     root.geometry('800x500+300+100')
@@ -425,25 +411,14 @@ def game_3():
 
     chooseword()
     root.mainloop()
-    print()
-    print("Pay:", cost)
-    game_shop(cost)
+    game_shop()
+
 
 def game_4():
     import tkinter
     import random
 
-
-    print("********************************************")
-    print("Welcome to Game Number 4 --- The Colour Game")
-    print("********************************************")
-
-    print()
-
-    print("Loading the gaming window...................")
-    print("Please Wait")
-
-    cost = 0
+    snake.display_text("WELCOME")
 
     colours = ['Red', 'Blue', 'Green', 'Pink', 'Black',
                'Yellow', 'Orange', 'White', 'Purple', 'Brown']
@@ -518,10 +493,10 @@ def game_4():
 
     root.mainloop()
 
-    cost += 100
-
-    print("Pay:", cost)
-    game_shop(cost)
+    global cost
+    cost += 120
+    snake.display_text("GAME OVER")
+    game_shop()
 
 
 def Calculator():
@@ -644,13 +619,12 @@ def Calculator():
     f.pack()
 
     root.mainloop()
-    game_shop(100)
+    game_shop()
 
 
-def game_shop(cash):
+def game_shop():
     clock = pygame.time.Clock()
     gameDisplay = pygame.display.set_mode((display_width, display_height), 0, 32)
-
 
     while True:
         for event in pygame.event.get():
@@ -687,10 +661,11 @@ def game_shop(cash):
         button("2. HANGAROO", 750, 50, 200, 100, green, dark_green, game_3)
         button("1. SNAKE GAME", 50, 50, 200, 100, green, dark_green, snake_game)
         button("CALCULATOR", 400, 450, 200, 100, green, dark_green, Calculator)
-        button("GENERATE BILL", 400, 50, 200, 100,  green, dark_green)
+        button("GENERATE BILL", 400, 50, 200, 100, green, dark_green, generate_bill)
 
         pygame.display.update()
         clock.tick(15)
+
 
 white = (255, 255, 255)
 red = (255, 0, 0)
@@ -704,5 +679,12 @@ def text_objects(text, font):
     textsurface = font.render(text, True, (34, 67, 90))
     return textsurface, textsurface.get_rect()
 
+def generate_bill():
+    global cost
+    cost += 20
+    str = f"The Total cost generated is {cost}"
+    snake.display_text(str)
+    pygame.quit()
+    quit()
 
-game_shop(10000)
+game_shop()
