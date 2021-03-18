@@ -414,6 +414,10 @@ def game_3():
     game_shop()
 
 
+left_time = 30
+color_score = 0
+
+
 def game_4():
     import tkinter
     import random
@@ -422,25 +426,24 @@ def game_4():
 
     colours = ['Red', 'Blue', 'Green', 'Pink', 'Black',
                'Yellow', 'Orange', 'White', 'Purple', 'Brown']
-    score = 0
 
-    timeleft = 30
+
 
     def startGame(event):
-        if timeleft == 30:
+        if left_time == 30:
             countdown()
         nextColour()
 
     def nextColour():
-        global score
-        global timeleft
+        global color_score
+        global left_time
 
-        if timeleft > 0:
+        if left_time > 0:
 
             e.focus_set()
 
             if e.get().lower() == colours[1].lower():
-                score += 1
+                color_score += 1
 
             e.delete(0, tkinter.END)
 
@@ -448,16 +451,16 @@ def game_4():
 
             label.config(fg=str(colours[1]), text=str(colours[0]))
 
-            scoreLabel.config(text="Score: " + str(score))
+            scoreLabel.config(text="Score: " + str(color_score))
 
     def countdown():
-        global timeleft
+        global left_time
 
-        if timeleft > 0:
-            timeleft -= 1
+        if left_time > 0:
+            left_time -= 1
 
             timeLabel.config(text="Time left: "
-                                  + str(timeleft))
+                                  + str(left_time))
 
             timeLabel.after(1000, countdown)
 
@@ -477,7 +480,7 @@ def game_4():
     scoreLabel.pack()
 
     timeLabel = tkinter.Label(root, text="Time left: " +
-                                         str(timeleft), font=('Helvetica', 12))
+                                         str(left_time), font=('Helvetica', 12))
 
     timeLabel.pack()
 
@@ -500,130 +503,90 @@ def game_4():
 
 
 def Calculator():
-    def click(event):
-        global scvalue
-        text = event.widget.cget("text")
-        if text == "=":
-            if scvalue.get().isdigit():
-                value = int(scvalue.get())
+    import tkinter.messagebox as tmsg
+    def cal():
+        root = Tk()
+        root.configure(background="spring green")
+        root.geometry("420x280")
+
+        root.title("CALCULATOR ")
+        textaa = Label(root, text="ENTER YOUR EXPRESSION HERE", font="cosmicansus 10 bold").pack()
+
+        scvalue = StringVar()
+        scvalue.set("")
+
+        screen2 = Entry(root, textvar=scvalue, font="lucida 35 bold")
+        screen2.pack(fill=X, ipadx=5, pady=35, padx=5)
+
+        f1 = Frame(root, bg="black")
+
+        f1.pack()
+
+        f2 = Frame(root, bg="black")
+
+        f2.pack()
+
+        f3 = Frame(root, bg="black")
+
+        f3.pack()
+
+        f4 = Frame(root, bg="black")
+
+        b12 = Button(f4, text="=", padx=22, pady=8, font="lucida 20 bold")
+        b12.pack(side=LEFT, padx=0, pady=0)
+        # b12.bind("<Button-1>", click)
+
+        f4.pack()
+
+        f5 = Frame(root, bg="black")
+
+        f5.pack()
+
+        f6 = Frame(root, bg="black")
+
+        f6.pack()
+
+        def click(event1):
+
+            text = event1.widget.cget("text")
+            if text == "=":
+
+                if scvalue.get().isdigit():
+                    value = int(scvalue.get())
+                else:
+                    try:
+                        value = eval(screen2.get())
+
+                    except Exception as e:
+                        print(e)
+                        value = "Error"
+
+                scvalue.set(value)
+                tmsg.showinfo("  VALUE                  ",
+                              f"  THE ANSWER IS \n \n        {scvalue.get()}             \n \n\n \n                        Thank you ")
+
+            elif text == "C":
+                scvalue.set("")
+                print(scvalue.get())
+            elif text == "<--":
+                scvalue.set(scvalue.get()[:-1])
+                print(scvalue.get())
+
             else:
-                try:
-                    value = eval(screen.get())
+                scvalue.set(scvalue.get() + text)
+                print(scvalue.get())
 
-                except Exception as e:
-                    print(e)
-                    value = "Error"
+        b12.bind("<Button-1>", click)
 
-            scvalue.set(value)
-            screen.update()
+        root.mainloop()
 
-        elif text == "C":
-            scvalue.set("")
-            screen.update()
-
-        else:
-            scvalue.set(scvalue.get() + text)
-            screen.update()
-
-    root = Tk()
-    root.configure(background="spring green")
-    root.geometry("320x360")
-
-    root.title("CALCULATOR ")
-
-    scvalue = StringVar()
-    scvalue.set("")
-    screen = Entry(root, textvar=scvalue, font="lucida 25 bold")
-    screen.pack(fill=X, ipadx=5, pady=15, padx=5)
-
-    f = Frame(root, bg="black")
-    b = Button(f, text="9", padx=12, pady=2, font="lucida 15 bold")
-    b.pack(side=LEFT, padx=18, pady=2)
-    b.bind("<Button-1>", click)
-
-    b = Button(f, text="8", padx=12, pady=2, font="lucida 15 bold")
-    b.pack(side=LEFT, padx=18, pady=2)
-    b.bind("<Button-1>", click)
-
-    b = Button(f, text="7", padx=12, pady=2, font="lucida 15 bold")
-    b.pack(side=LEFT, padx=18, pady=2)
-    b.bind("<Button-1>", click)
-
-    f.pack()
-
-    f = Frame(root, bg="black")
-    b = Button(f, text="6", padx=12, pady=2, font="lucida 15 bold")
-    b.pack(side=LEFT, padx=18, pady=2)
-    b.bind("<Button-1>", click)
-
-    b = Button(f, text="5", padx=12, pady=2, font="lucida 15 bold")
-    b.pack(side=LEFT, padx=18, pady=2)
-    b.bind("<Button-1>", click)
-
-    b = Button(f, text="4", padx=12, pady=2, font="lucida 15 bold")
-    b.pack(side=LEFT, padx=18, pady=2)
-    b.bind("<Button-1>", click)
-
-    f.pack()
-
-    f = Frame(root, bg="black")
-    b = Button(f, text="3", padx=12, pady=2, font="lucida 15 bold")
-    b.pack(side=LEFT, padx=18, pady=2)
-    b.bind("<Button-1>", click)
-
-    b = Button(f, text="2", padx=12, pady=2, font="lucida 15 bold")
-    b.pack(side=LEFT, padx=18, pady=2)
-    b.bind("<Button-1>", click)
-
-    b = Button(f, text="1", padx=12, pady=2, font="lucida 15 bold")
-    b.pack(side=LEFT, padx=18, pady=2)
-    b.bind("<Button-1>", click)
-
-    f.pack()
-
-    f = Frame(root, bg="black")
-    b = Button(f, text="0", padx=12, pady=2, font="lucida 15 bold")
-    b.pack(side=LEFT, padx=20, pady=2)
-    b.bind("<Button-1>", click)
-
-    b = Button(f, text="C", padx=12, pady=2, font="white 15 bold")
-    b.pack(side=LEFT, padx=14, pady=2)
-    b.bind("<Button-1>", click)
-
-    b = Button(f, text="=", padx=12, pady=2, font="lucida 15 bold")
-    b.pack(side=LEFT, padx=19, pady=2)
-    b.bind("<Button-1>", click)
-
-    f.pack()
-
-    f = Frame(root, bg="black")
-    b = Button(f, text="/", padx=11, pady=2, font="lucida 15 bold")
-    b.pack(side=LEFT, padx=42, pady=2)
-    b.bind("<Button-1>", click)
-
-    b = Button(f, text="*", padx=12, pady=2, font="lucida 15 bold")
-    b.pack(side=LEFT, padx=42, pady=2)
-    b.bind("<Button-1>", click)
-
-    f.pack()
-
-    f = Frame(root, bg="black")
-    b = Button(f, text="+", padx=12, pady=2, font="white 15 bold")
-    b.pack(side=LEFT, padx=41, pady=2)
-    b.bind("<Button-1>", click)
-
-    b = Button(f, text="-", padx=14, pady=2, font="lucida 15 bold")
-    b.pack(side=LEFT, padx=41, pady=2)
-    b.bind("<Button-1>", click)
-
-    f.pack()
-
-    root.mainloop()
+    cal()
     game_shop()
 
 
 def game_shop():
     clock = pygame.time.Clock()
+
     gameDisplay = pygame.display.set_mode((display_width, display_height), 0, 32)
 
     while True:
@@ -679,6 +642,7 @@ def text_objects(text, font):
     textsurface = font.render(text, True, (34, 67, 90))
     return textsurface, textsurface.get_rect()
 
+
 def generate_bill():
     global cost
     cost += 20
@@ -686,5 +650,6 @@ def generate_bill():
     snake.display_text(str)
     pygame.quit()
     quit()
+
 
 game_shop()
