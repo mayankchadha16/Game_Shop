@@ -31,6 +31,7 @@ class Snake():
         textsurface = font.render(text, True, (34, 67, 90))
         return textsurface, textsurface.get_rect()
     def display_text(self, text):
+        pygame.font.init()
         largetext = pygame.font.Font("freesansbold.ttf", 50)
         textsurf, textrect = self.text_objects(text, largetext)
         textrect.center = ((screen_width / 2), (screen_height / 2))
@@ -122,14 +123,16 @@ screen_width = 600
 screen_height = 400
 
 gridsize = 20
-grid_width = screen_width/gridsize
-grid_height = screen_height/gridsize
+grid_width = int(screen_width/gridsize)
+grid_height = int(screen_height/gridsize)
 
 up = (0, -1)
 down = (0, 1)
 left = (-1, 0)
 right = (1, 0)
 
+snake = Snake()
+food = Food()
 def snake_game():
     pygame.init()
 
@@ -140,8 +143,8 @@ def snake_game():
     surface = surface.convert()
     b_g(surface)
 
-    snake = Snake()
-    food = Food()
+    # snake = Snake()
+    # food = Food()
     snake.display_text("WELCOME TO GAME-1")
     snake.display_text("THE SNAKE GAME")
 
@@ -166,7 +169,7 @@ def snake_game():
         snake.draw(surface)
         food.draw(surface)
         screen.blit(surface, (0, 0))
-        text = myfont.render("Score {0}".format(snake.score), 1, (0, 0, 0))
+        text = myfont.render("Score {0}".format(snake.score), True, (0, 0, 0))
         screen.blit(text, (20, 15))
         pygame.display.update()
 
@@ -325,7 +328,7 @@ def game_3():
     pygame.quit()
 
     print()
-
+    snake.display_text("Welcome")
     print("*************************************")
     print("Welcome to Game Number 3 --- Hangaroo")
     print("*************************************")
@@ -430,6 +433,7 @@ def game_4():
     import tkinter
     import random
 
+
     print("********************************************")
     print("Welcome to Game Number 4 --- The Colour Game")
     print("********************************************")
@@ -522,57 +526,122 @@ def game_4():
 
 def Calculator():
     def click(event):
-        global sc_value
-        text = event.widget.cget('text')
-        if text == '=':
-            if sc_value.get().isdigit():
-                value = int(sc_value.get())
+        global scvalue
+        text = event.widget.cget("text")
+        if text == "=":
+            if scvalue.get().isdigit():
+                value = int(scvalue.get())
             else:
                 try:
                     value = eval(screen.get())
+
                 except Exception as e:
                     print(e)
                     value = "Error"
-            sc_value.set(value)
+
+            scvalue.set(value)
             screen.update()
-        elif text == 'C':
-            sc_value.set("")
+
+        elif text == "C":
+            scvalue.set("")
             screen.update()
-        elif text == '<--':
-            sc_value.set(sc_value.get()[:-1])
-            screen.update()
+
         else:
-            try:
-                sc_value.set(sc_value.get() + text)
-                screen.update()
-            except Exception:
-                print("something is wrong")
+            scvalue.set(scvalue.get() + text)
+            screen.update()
 
     root = Tk()
-    root.geometry("284x362")
-    root.maxsize(284, 362)
-    root.minsize(284, 362)
-    root.title("CALCULATOR")
     root.configure(background="spring green")
+    root.geometry("320x360")
 
-    sc_value = StringVar()
-    sc_value.set('')
-    screen = Entry(root, textvar=sc_value, font="lucida 20 bold")
-    screen.place(x=10, y=15, width=261, height=51)
-    screen.bind("<Key>", lambda e: "break")
+    root.title("CALCULATOR ")
 
-    f1 = Frame(root, bg="grey").pack()
+    scvalue = StringVar()
+    scvalue.set("")
+    screen = Entry(root, textvar=scvalue, font="lucida 25 bold")
+    screen.pack(fill=X, ipadx=5, pady=15, padx=5)
 
-    xpos = [10, 80, 150, 220, 10, 150, 220]
-    ypos = [130, 190, 250, 310, 80]
-    x_loop = [0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 6]
-    y_loop = [0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4]
-    wpos = [51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 121, 51, 51, 51]
-    fix = ['9', '8', '7', '+', '6', '5', '4', '-', '3', '2', '1', '*', '%', '0', '.', '/', 'C', '<--', '=']
-    for y in range(0, 19):  # make All buttons in fix tuple
-        b = Button(f1, text=fix[y], font="lucida 15 bold")
-        b.place(x=xpos[x_loop[y]], y=ypos[y_loop[y]], width=wpos[y], height=41)
-        b.bind("<Button-1>", click)
+    f = Frame(root, bg="black")
+    b = Button(f, text="9", padx=12, pady=2, font="lucida 15 bold")
+    b.pack(side=LEFT, padx=18, pady=2)
+    b.bind("<Button-1>", click)
+
+    b = Button(f, text="8", padx=12, pady=2, font="lucida 15 bold")
+    b.pack(side=LEFT, padx=18, pady=2)
+    b.bind("<Button-1>", click)
+
+    b = Button(f, text="7", padx=12, pady=2, font="lucida 15 bold")
+    b.pack(side=LEFT, padx=18, pady=2)
+    b.bind("<Button-1>", click)
+
+    f.pack()
+
+    f = Frame(root, bg="black")
+    b = Button(f, text="6", padx=12, pady=2, font="lucida 15 bold")
+    b.pack(side=LEFT, padx=18, pady=2)
+    b.bind("<Button-1>", click)
+
+    b = Button(f, text="5", padx=12, pady=2, font="lucida 15 bold")
+    b.pack(side=LEFT, padx=18, pady=2)
+    b.bind("<Button-1>", click)
+
+    b = Button(f, text="4", padx=12, pady=2, font="lucida 15 bold")
+    b.pack(side=LEFT, padx=18, pady=2)
+    b.bind("<Button-1>", click)
+
+    f.pack()
+
+    f = Frame(root, bg="black")
+    b = Button(f, text="3", padx=12, pady=2, font="lucida 15 bold")
+    b.pack(side=LEFT, padx=18, pady=2)
+    b.bind("<Button-1>", click)
+
+    b = Button(f, text="2", padx=12, pady=2, font="lucida 15 bold")
+    b.pack(side=LEFT, padx=18, pady=2)
+    b.bind("<Button-1>", click)
+
+    b = Button(f, text="1", padx=12, pady=2, font="lucida 15 bold")
+    b.pack(side=LEFT, padx=18, pady=2)
+    b.bind("<Button-1>", click)
+
+    f.pack()
+
+    f = Frame(root, bg="black")
+    b = Button(f, text="0", padx=12, pady=2, font="lucida 15 bold")
+    b.pack(side=LEFT, padx=20, pady=2)
+    b.bind("<Button-1>", click)
+
+    b = Button(f, text="C", padx=12, pady=2, font="white 15 bold")
+    b.pack(side=LEFT, padx=14, pady=2)
+    b.bind("<Button-1>", click)
+
+    b = Button(f, text="=", padx=12, pady=2, font="lucida 15 bold")
+    b.pack(side=LEFT, padx=19, pady=2)
+    b.bind("<Button-1>", click)
+
+    f.pack()
+
+    f = Frame(root, bg="black")
+    b = Button(f, text="/", padx=11, pady=2, font="lucida 15 bold")
+    b.pack(side=LEFT, padx=42, pady=2)
+    b.bind("<Button-1>", click)
+
+    b = Button(f, text="*", padx=12, pady=2, font="lucida 15 bold")
+    b.pack(side=LEFT, padx=42, pady=2)
+    b.bind("<Button-1>", click)
+
+    f.pack()
+
+    f = Frame(root, bg="black")
+    b = Button(f, text="+", padx=12, pady=2, font="white 15 bold")
+    b.pack(side=LEFT, padx=41, pady=2)
+    b.bind("<Button-1>", click)
+
+    b = Button(f, text="-", padx=14, pady=2, font="lucida 15 bold")
+    b.pack(side=LEFT, padx=41, pady=2)
+    b.bind("<Button-1>", click)
+
+    f.pack()
 
     root.mainloop()
     game_shop(100)
@@ -613,12 +682,12 @@ def game_shop(cash):
             textRect.center = ((x + (w / 2)), (y + (h / 2)))
             gameDisplay.blit(textSurf, textRect)
 
+        button("4. R_P_S", 750, 450, 200, 100, green, dark_green, game_2)
         button("3. COLOUR GAME", 50, 450, 200, 100, green, dark_green, game_4)
-        button("2. HANGAROO", 750, 450, 200, 100, green, dark_green, game_3)
-        button("4. R_P_S", 650, 50, 200, 100, green, dark_green, game_2)
-        button("1. SNAKE GAME", 150, 50, 200, 100, green, dark_green, snake_game)
+        button("2. HANGAROO", 750, 50, 200, 100, green, dark_green, game_3)
+        button("1. SNAKE GAME", 50, 50, 200, 100, green, dark_green, snake_game)
         button("CALCULATOR", 400, 450, 200, 100, green, dark_green, Calculator)
-
+        button("GENERATE BILL", 400, 50, 200, 100,  green, dark_green)
 
         pygame.display.update()
         clock.tick(15)
