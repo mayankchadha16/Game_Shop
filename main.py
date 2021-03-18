@@ -5,14 +5,15 @@ from tkinter import *
 
 cost = 0
 
-
-class Snake():
-    def __init__(self):
+# snake_score = 0
+class Snake:
+    def __init__(self, snake_score = 0):
         self.length = 1
         self.positions = [((screen_width / 2), (screen_height / 2))]
         self.direction = random.choice([up, down, left, right])
         self.color = (17, 24, 47)
-        self.score = 0
+        self.snake_score = snake_score
+        self.snake_score = 0
 
     def head_position(self):
         return self.positions[0]
@@ -38,9 +39,10 @@ class Snake():
         time.sleep(2)
 
     def crash(self):
+        global snake_score
         time.sleep(1)
         self.display_text("GAME OVER")
-        self.display_text("YOUR SCORE : " + str(self.score))
+        self.display_text("YOUR SCORE : " + str(self.snake_score))
         global cost
         cost = cost + 120
         # pygame.quit()
@@ -63,7 +65,7 @@ class Snake():
         self.length = 1
         self.positions = [((screen_width / 2), (screen_height / 2))]
         self.direction = random.choice([up, down, left, right])
-        self.score = 0
+        self.snake_score = 0
 
     def draw(self, surface):
         for p in self.positions:
@@ -87,7 +89,7 @@ class Snake():
                     self.turn(right)
 
 
-class Food():
+class Food:
     def __init__(self):
         self.position = (0, 0)
         self.color = (0, 0, 255)
@@ -105,7 +107,7 @@ class Food():
 def b_g(surface):
     for y in range(0, int(grid_height)):
         for x in range(0, int(grid_width)):
-            if (x == 0 or x == grid_width - 1 or y == 0 or y == grid_height - 1):
+            if x == 0 or x == grid_width - 1 or y == 0 or y == grid_height - 1:
                 r = pygame.Rect((x * gridsize, y * gridsize), (gridsize, gridsize))
                 pygame.draw.rect(surface, (255, 0, 0), r)
             else:
@@ -145,18 +147,18 @@ def snake_game():
 
     myfont = pygame.font.SysFont("monospace", 16)
 
-    while (True):
+    while True:
         clock.tick(10)
         snake.handle_keys()
         b_g(surface)
         snake.move()
         if snake.head_position() == food.position:
             snake.length += 1
-            if snake.score % 30 == 0 and snake.score != 0:
-                snake.score += 10
+            if snake.snake_score % 30 == 0 and snake.snake_score != 0:
+                snake.snake_score += 10
             else:
-                snake.score += 5
-            if (snake.score) % 30 == 0:
+                snake.snake_score += 5
+            if snake.snake_score % 30 == 0:
                 food.color = (255, 0, 0)
             else:
                 food.color = (0, 0, 255)
@@ -164,7 +166,7 @@ def snake_game():
         snake.draw(surface)
         food.draw(surface)
         screen.blit(surface, (0, 0))
-        text = myfont.render("Score {0}".format(snake.score), True, (0, 0, 0))
+        text = myfont.render("Score {0}".format(snake.snake_score), True, (0, 0, 0))
         screen.blit(text, (20, 15))
         pygame.display.update()
 
@@ -203,7 +205,7 @@ def game_2():
     print()
     x = 'Y'
 
-    while x == 'Y':
+    while x == 'Y' or x == 'y':
         print("Play with a friend --- Press 1")
         print("Play with computer --- Press 2")
 
@@ -256,6 +258,7 @@ def game_2():
 
             print()
 
+            comp = 'p'
             if opponent == 1:
                 comp = 'r'
 
@@ -280,7 +283,7 @@ def game_2():
         x = input("Wanna play again Yes(Y) or No(N)---")
         print()
 
-        if x == 'N':
+        if x == 'N' or x == 'n':
             print("Thanks Sir/Mam!")
             print()
         global cost
@@ -363,7 +366,7 @@ def game_3():
     def jj(event):
         hangaroo()
 
-    from tkinter import messagebox
+    # from tkinter import messagebox
     import random
 
     options = ['kumar', 'rahul', 'gupta', 'prem', 'keshav', 'sujit', 'eshita']
@@ -427,8 +430,6 @@ def game_4():
     colours = ['Red', 'Blue', 'Green', 'Pink', 'Black',
                'Yellow', 'Orange', 'White', 'Purple', 'Brown']
 
-
-
     def startGame(event):
         if left_time == 30:
             countdown()
@@ -464,6 +465,7 @@ def game_4():
 
             timeLabel.after(1000, countdown)
 
+    global left_time
     root = tkinter.Tk()
 
     root.title("COLORGAME")
@@ -603,13 +605,13 @@ def game_shop():
             TextRect.center = ((display_width / 2), (display_height / 2))
             gameDisplay.blit(TextSurf, TextRect)
 
-        def button(msg, x, y, w, h, ic, ac, action=None):
+        def button(msg, x, y, w, h, ic, ac, action):
             mouse = pygame.mouse.get_pos()
             click = pygame.mouse.get_pressed()
 
             if x + w > mouse[0] > x and y + h > mouse[1] > y:
                 pygame.draw.rect(gameDisplay, ac, (x, y, w, h))
-                if click[0] == 1 and action != None:
+                if click[0] == 1:
                     action()
             else:
                 pygame.draw.rect(gameDisplay, ic, (x, y, w, h))
