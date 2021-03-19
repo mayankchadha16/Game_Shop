@@ -5,14 +5,12 @@ from tkinter import *
 
 cost = 0
 
-# snake_score = 0
 class Snake:
-    def __init__(self, snake_score = 0):
+    def __init__(self):
         self.length = 1
         self.positions = [((screen_width / 2), (screen_height / 2))]
         self.direction = random.choice([up, down, left, right])
         self.color = (17, 24, 47)
-        self.snake_score = snake_score
         self.snake_score = 0
 
     def head_position(self):
@@ -61,11 +59,7 @@ class Snake:
             if len(self.positions) > self.length:
                 self.positions.pop()
 
-    def reset(self):
-        self.length = 1
-        self.positions = [((screen_width / 2), (screen_height / 2))]
-        self.direction = random.choice([up, down, left, right])
-        self.snake_score = 0
+
 
     def draw(self, surface):
         for p in self.positions:
@@ -76,8 +70,8 @@ class Snake:
     def handle_keys(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
+                game_shop()
+
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
                     self.turn(up)
@@ -141,8 +135,6 @@ def snake_game():
     surface = surface.convert()
     b_g(surface)
 
-    # snake = Snake()
-    # food = Food()
     snake.display_text("WELCOME")
 
     myfont = pygame.font.SysFont("monospace", 16)
