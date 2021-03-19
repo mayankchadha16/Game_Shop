@@ -192,9 +192,12 @@ def game_2():
     print("**************************************************")
 
     print()
+    
     x = 'Y'
+    
     global cost
     cost += 120
+    
     while x == 'Y' or x == 'y':
         print("Play with a friend --- Press 1")
         print("Play with computer --- Press 2")
@@ -258,7 +261,9 @@ def game_2():
             elif opponent == 3:
                 comp = 's'
             player = input("Your Turn: Rock(r) Paper(p) or Scissor(s)---")
+            
             a = game(comp, player)
+            
             print(f"Computer chose {comp}")
             print(f"You chose {player}")
 
@@ -271,6 +276,7 @@ def game_2():
             print()
 
         x = input("Wanna play again Yes(Y) or No(N)---")
+        
         print()
 
         if x == 'N' or x == 'n':
@@ -633,8 +639,10 @@ def text_objects(text, font):
 def generate_bill():
     global cost
     cost += 20
+    
     str1 = f"The Total cost generated is {cost}"
     snake.display_text(str1)
+    
     pygame.quit()
     quit()
 
