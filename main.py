@@ -5,6 +5,7 @@ from tkinter import *
 
 cost = 0
 
+
 class Snake:
     def __init__(self):
         self.length = 1
@@ -22,7 +23,8 @@ class Snake:
         else:
             self.direction = point
 
-    def text_objects(self, text, font):
+    @staticmethod
+    def text_objects(text, font):
         textsurface = font.render(text, True, (34, 67, 90))
         return textsurface, textsurface.get_rect()
 
@@ -37,14 +39,11 @@ class Snake:
         time.sleep(2)
 
     def crash(self):
-        global snake_score
         time.sleep(1)
         self.display_text("GAME OVER")
         self.display_text("YOUR SCORE : " + str(self.snake_score))
         global cost
         cost = cost + 120
-        # pygame.quit()
-        # quit()
         game_shop()
 
     def move(self):
@@ -58,8 +57,6 @@ class Snake:
             self.positions.insert(0, new)
             if len(self.positions) > self.length:
                 self.positions.pop()
-
-
 
     def draw(self, surface):
         for p in self.positions:
@@ -279,8 +276,6 @@ def game_2():
         if x == 'N' or x == 'n':
             print("Thanks Sir/Mam!")
             print()
-        # global cost
-        # cost += 120
 
     game_shop()
 
@@ -337,7 +332,6 @@ def game_3():
                         ss.insert(i, "*")
                         unknown.configure(text=xx)
                         if xx == temps:
-                            # ans.configure(text='Congratulations')
 
                             if res:
                                 chooseword()
@@ -349,7 +343,6 @@ def game_3():
                 n -= 1
                 chances_left.configure(text='Left = {}'.format(n))
         if n <= 0:
-            # ans.configure(text='Better luck next time')
 
             if res:
                 chooseword()
@@ -359,7 +352,6 @@ def game_3():
     def jj(event):
         hangaroo()
 
-    # from tkinter import messagebox
     import random
 
     options = ['kumar', 'rahul', 'gupta', 'prem', 'keshav', 'sujit', 'eshita']
@@ -499,6 +491,7 @@ def game_4():
 
 def Calculator():
     import tkinter.messagebox as tmsg
+
     def cal():
         root = Tk()
         root.configure(background="spring green")
@@ -529,7 +522,6 @@ def Calculator():
 
         b12 = Button(f4, text="=", padx=22, pady=8, font="lucida 20 bold")
         b12.pack(side=LEFT, padx=0, pady=0)
-        # b12.bind("<Button-1>", click)
 
         f4.pack()
 
@@ -558,7 +550,7 @@ def Calculator():
 
                 scvalue.set(value)
                 tmsg.showinfo("  VALUE                  ",
-                              f"  THE ANSWER IS \n \n        {scvalue.get()}             \n \n\n \n                        Thank you ")
+                              f"  THE ANSWER IS \n \n        {scvalue.get()}             \n \n\n \n         Thank you ")
 
             elif text == "C":
                 scvalue.set("")
@@ -600,7 +592,7 @@ def game_shop():
 
         def button(msg, x, y, w, h, ic, ac, action):
             mouse = pygame.mouse.get_pos()
-            click = pygame.mouse.get_pressed()
+            click = pygame.mouse.get_pressed(3)
 
             if x + w > mouse[0] > x and y + h > mouse[1] > y:
                 pygame.draw.rect(gameDisplay, ac, (x, y, w, h))
@@ -641,9 +633,10 @@ def text_objects(text, font):
 def generate_bill():
     global cost
     cost += 20
-    str = f"The Total cost generated is {cost}"
-    snake.display_text(str)
+    str1 = f"The Total cost generated is {cost}"
+    snake.display_text(str1)
     pygame.quit()
     quit()
+
 
 game_shop()
