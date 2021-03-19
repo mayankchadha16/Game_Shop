@@ -196,7 +196,8 @@ def game_2():
 
     print()
     x = 'Y'
-
+    global cost
+    cost += 120
     while x == 'Y' or x == 'y':
         print("Play with a friend --- Press 1")
         print("Play with computer --- Press 2")
@@ -278,8 +279,8 @@ def game_2():
         if x == 'N' or x == 'n':
             print("Thanks Sir/Mam!")
             print()
-        global cost
-        cost += 120
+        # global cost
+        # cost += 120
 
     game_shop()
 
@@ -644,6 +645,5 @@ def generate_bill():
     snake.display_text(str)
     pygame.quit()
     quit()
-
 
 game_shop()
